@@ -54,9 +54,13 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware(['role:buyer'])->group(function () {
         // Route::get('/dashboard', fn () => view('dashboard'))->name('dashboard');
+        // Route::get('/dashboard', function () {
+        //     return view('dashboard');
+        // });
+
         Route::get('/dashboard', function () {
             return view('dashboard');
-        });
+        })->middleware(['auth'])->name('dashboard');
 
         Route::get('/orders', [App\Http\Controllers\Buyer\OrderController::class, 'index']);
         Route::get('/orders/{id}', [App\Http\Controllers\Buyer\OrderController::class, 'show']);

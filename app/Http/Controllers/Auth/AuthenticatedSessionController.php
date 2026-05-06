@@ -38,9 +38,9 @@ class AuthenticatedSessionController extends Controller
             return redirect('/supplier/dashboard');
         }
 
-        // return redirect('/dashboard');
+        return redirect('/dashboard');
 
-        return redirect('/products');
+        // return redirect('/products');
     }
 
     /**
