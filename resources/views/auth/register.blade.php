@@ -1,71 +1,83 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register - B2B Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #f5f6f8; }
+        .auth-card { max-width: 480px; margin: 60px auto; }
+    </style>
+</head>
+<body>
 
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-        </div>
+<div class="auth-card">
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+            <h4 class="mb-4 text-center fw-bold">Create an Account</h4>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    @foreach ($errors->all() as $error)
+                        <div>{{ $error }}</div>
+                    @endforeach
+                </div>
+            @endif
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
+            <form method="POST" action="{{ route('register') }}">
+                @csrf
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+                <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    <input type="text" name="name" class="form-control"
+                        value="{{ old('name') }}" required autofocus>
+                </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" name="email" class="form-control"
+                        value="{{ old('email') }}" required>
+                </div>
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input type="password" name="password" class="form-control" required>
+                </div>
 
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
+                <div class="mb-3">
+                    <label class="form-label">Confirm Password</label>
+                    <input type="password" name="password_confirmation" class="form-control" required>
+                </div>
 
-        <!-- Role Selection -->
-        <div class="mt-4">
-            <x-input-label value="Register As" />
+                <div class="mb-3">
+                    <label class="form-label">Register As</label>
+                    <div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio"
+                                name="role" value="buyer" id="role_buyer"
+                                {{ old('role', 'buyer') === 'buyer' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="role_buyer">Buyer</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio"
+                                name="role" value="supplier" id="role_supplier"
+                                {{ old('role') === 'supplier' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="role_supplier">Supplier</label>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="mt-2">
-                <label class="mr-4">
-                    <input type="radio" name="role" value="buyer" checked>
-                    Buyer
-                </label>
+                <button type="submit" class="btn btn-dark w-100">Register</button>
+            </form>
 
-                <label>
-                    <input type="radio" name="role" value="supplier">
-                    Supplier
-                </label>
+            <hr>
+            <div class="text-center small">
+                Already have an account? <a href="{{ route('login') }}">Login</a>
             </div>
 
-            <x-input-error :messages="$errors->get('role')" class="mt-2" />
         </div>
+    </div>
+</div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+</body>
+</html>
