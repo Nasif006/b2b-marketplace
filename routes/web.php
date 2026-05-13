@@ -33,6 +33,18 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware(['role:admin'])->group(function () {
         Route::get('/admin/dashboard', fn () => view('admin.dashboard'));
+
+        // CRM
+        Route::get('/admin/crm/customers', [App\Http\Controllers\Admin\CrmController::class, 'customers']);
+        Route::get('/admin/crm/customers/{id}', [App\Http\Controllers\Admin\CrmController::class, 'customerShow']);
+        Route::post('/admin/crm/customers/{id}/interactions', [App\Http\Controllers\Admin\CrmController::class, 'interactionStore']);
+
+        Route::get('/admin/crm/leads', [App\Http\Controllers\Admin\CrmController::class, 'leads']);
+        Route::get('/admin/crm/leads/create', [App\Http\Controllers\Admin\CrmController::class, 'leadCreate']);
+        Route::post('/admin/crm/leads', [App\Http\Controllers\Admin\CrmController::class, 'leadStore']);
+        Route::get('/admin/crm/leads/{id}/edit', [App\Http\Controllers\Admin\CrmController::class, 'leadEdit']);
+        Route::put('/admin/crm/leads/{id}', [App\Http\Controllers\Admin\CrmController::class, 'leadUpdate']);
+        Route::delete('/admin/crm/leads/{id}', [App\Http\Controllers\Admin\CrmController::class, 'leadDestroy']);
     });
 
     Route::middleware(['role:supplier'])->group(function () {
