@@ -45,6 +45,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/crm/leads/{id}/edit', [App\Http\Controllers\Admin\CrmController::class, 'leadEdit']);
         Route::put('/admin/crm/leads/{id}', [App\Http\Controllers\Admin\CrmController::class, 'leadUpdate']);
         Route::delete('/admin/crm/leads/{id}', [App\Http\Controllers\Admin\CrmController::class, 'leadDestroy']);
+
+        // Automation
+        Route::get('/admin/automation/rules', [App\Http\Controllers\Admin\AutomationController::class, 'rules']);
+        Route::get('/admin/automation/rules/create', [App\Http\Controllers\Admin\AutomationController::class, 'ruleCreate']);
+        Route::post('/admin/automation/rules', [App\Http\Controllers\Admin\AutomationController::class, 'ruleStore']);
+        Route::post('/admin/automation/rules/{id}/toggle', [App\Http\Controllers\Admin\AutomationController::class, 'ruleToggle']);
+        Route::delete('/admin/automation/rules/{id}', [App\Http\Controllers\Admin\AutomationController::class, 'ruleDestroy']);
+        Route::get('/admin/automation/logs', [App\Http\Controllers\Admin\AutomationController::class, 'logs']);
+
     });
 
     Route::middleware(['role:supplier'])->group(function () {

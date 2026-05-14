@@ -5,13 +5,13 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Customer;
+use App\Services\AutomationEngine;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
-use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
@@ -47,8 +47,13 @@ class RegisteredUserController extends Controller
             ]);
         }
 
-        event(new Registered($user));
+        // FIRE AUTOMATION: user_registered
+        AutomationEngine::fire('user_registered', $user, [
+            'email'   => $user->email,
+            'user_id' => $user->id,
+        ]);
 
+        event(new Registered($user));
         Auth::login($user);
 
         if ($user->role?->name === 'supplier') {
