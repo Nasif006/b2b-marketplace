@@ -54,6 +54,23 @@ Route::middleware('auth')->group(function () {
         Route::delete('/admin/automation/rules/{id}', [App\Http\Controllers\Admin\AutomationController::class, 'ruleDestroy']);
         Route::get('/admin/automation/logs', [App\Http\Controllers\Admin\AutomationController::class, 'logs']);
 
+        // Campaigns (Marketing Automation)
+        Route::get('/admin/campaigns', [App\Http\Controllers\Admin\CampaignController::class, 'index']);
+        Route::get('/admin/campaigns/create', [App\Http\Controllers\Admin\CampaignController::class, 'create']);
+        Route::post('/admin/campaigns', [App\Http\Controllers\Admin\CampaignController::class, 'store']);
+        Route::get('/admin/campaigns/{id}/edit', [App\Http\Controllers\Admin\CampaignController::class, 'edit']);
+        Route::put('/admin/campaigns/{id}', [App\Http\Controllers\Admin\CampaignController::class, 'update']);
+        Route::post('/admin/campaigns/{id}/send', [App\Http\Controllers\Admin\CampaignController::class, 'markSent']);
+        Route::delete('/admin/campaigns/{id}', [App\Http\Controllers\Admin\CampaignController::class, 'destroy']);
+
+        // Social Media
+        Route::get('/admin/social', [App\Http\Controllers\Admin\SocialController::class, 'index']);
+        Route::get('/admin/social/calendar', [App\Http\Controllers\Admin\SocialController::class, 'calendar']);
+        Route::get('/admin/social/create', [App\Http\Controllers\Admin\SocialController::class, 'create']);
+        Route::post('/admin/social', [App\Http\Controllers\Admin\SocialController::class, 'store']);
+        Route::post('/admin/social/{id}/post', [App\Http\Controllers\Admin\SocialController::class, 'markPosted']);
+        Route::delete('/admin/social/{id}', [App\Http\Controllers\Admin\SocialController::class, 'destroy']);
+
     });
 
     Route::middleware(['role:supplier'])->group(function () {
