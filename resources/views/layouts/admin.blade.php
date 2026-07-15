@@ -44,7 +44,7 @@
         /* ── SIDEBAR ── */
         .admin-sidebar {
             width: var(--sidebar-width);
-            min-height: 100vh;
+            height: 100vh;
             background: var(--sidebar-bg);
             border-right: 1px solid var(--border);
             display: flex;
@@ -52,6 +52,7 @@
             position: fixed;
             top: 0; left: 0;
             z-index: 100;
+            overflow: hidden;
         }
 
         .sidebar-brand {
@@ -93,7 +94,12 @@
             flex: 1;
             padding: 16px 0;
             overflow-y: auto;
+            overscroll-behavior: contain;
         }
+
+        .sidebar-nav::-webkit-scrollbar { width: 3px; }
+        .sidebar-nav::-webkit-scrollbar-track { background: transparent; }
+        .sidebar-nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
 
         .nav-section-label {
             font-size: 10px;
