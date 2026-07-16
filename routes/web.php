@@ -14,6 +14,7 @@ Route::get('/', [WelcomeController::class, 'index']);
 
 Route::get('/products', [ProductBrowseController::class, 'index']);
 Route::get('/products/{id}', [ProductBrowseController::class, 'show']);
+Route::get('/features', fn() => view('features'));
 
 Route::middleware('auth')->group(function () {
 
