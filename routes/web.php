@@ -75,6 +75,8 @@ Route::middleware('auth')->group(function () {
         // Orders & Products (admin view)
         Route::get('/admin/orders', fn() => view('admin.orders'));
         Route::get('/admin/products', fn() => view('admin.products'));
+
+        // Admin orders product views pass data via view directly
     });
 
     // ── SUPPLIER ──
