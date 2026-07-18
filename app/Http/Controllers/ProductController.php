@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
-
 class ProductController extends Controller
 {
     public function index()
@@ -22,23 +21,23 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
+            'name'  => 'required',
             'price' => 'required|numeric',
             'stock' => 'required|integer|min:0',
-            'moq' => 'required|integer',
+            'moq'   => 'required|integer',
+            'image' => 'nullable|url',
         ]);
 
         auth()->user()->products()->create(
-            $request->only(['name', 'price', 'stock', 'moq'])
+            $request->only(['name', 'description', 'price', 'stock', 'moq', 'image'])
         );
 
-        return redirect('/supplier/products');
+        return redirect('/supplier/products')->with('success', 'Product added.');
     }
 
     public function edit($id)
     {
         $product = auth()->user()->products()->findOrFail($id);
-
         return view('supplier.products.edit', compact('product'));
     }
 
@@ -47,25 +46,23 @@ class ProductController extends Controller
         $product = auth()->user()->products()->findOrFail($id);
 
         $request->validate([
-            'name' => 'required',
+            'name'  => 'required',
             'price' => 'required|numeric',
             'stock' => 'required|integer',
-            'moq' => 'required|integer',
+            'moq'   => 'required|integer',
+            'image' => 'nullable|url',
         ]);
 
         $product->update(
-            $request->only(['name', 'price', 'stock', 'moq'])
+            $request->only(['name', 'description', 'price', 'stock', 'moq', 'image'])
         );
 
-        return redirect('/supplier/products');
+        return redirect('/supplier/products')->with('success', 'Product updated.');
     }
 
     public function destroy($id)
     {
-        $product = auth()->user()->products()->findOrFail($id);
-
-        $product->delete();
-
-        return redirect('/supplier/products');
+        auth()->user()->products()->findOrFail($id)->delete();
+        return redirect('/supplier/products')->with('success', 'Product deleted.');
     }
 }
